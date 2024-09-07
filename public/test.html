@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment SDK Test</title>
+  <script src="./dist/payment-sdk.iife.js"></script> <!-- 모듈을 전역으로 로드 -->
+  <script>
+    // SDK 로드 후 실행될 코드
+    window.addEventListener('load', () => {
+      const paymentForm = document.querySelector('payment-form');
+      paymentForm.addEventListener('payment-submitted', (event) => {
+        console.log('Payment submitted:', event.detail);
+        document.getElementById('result').textContent = `Payment submitted: ${JSON.stringify(event.detail)}`;
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <h1>Payment SDK Test</h1>
+  <payment-form client-id="test-client"></payment-form>
+  <div id="result"></div>
+</body>
+
+</html>
