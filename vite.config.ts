@@ -2,37 +2,12 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import dts from "vite-plugin-dts";
 import { resolve } from "node:path";
+import tailwindcss from "tailwindcss";
+import autoprefixer from "autoprefixer";
 
-// https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(({ command }) => ({
   plugins: [
-    react({
-      jsxImportSource: "@emotion/react",
-      babel: {
-        plugins: [
-          "babel-plugin-macros",
-          [
-            "@emotion/babel-plugin-jsx-pragmatic",
-            {
-              export: "jsx",
-              import: "__cssprop",
-              module: "@emotion/react",
-            },
-            "css-prop",
-          ],
-          [
-            "@emotion/babel-plugin-jsx-pragmatic",
-            {
-              export: "Fragment",
-              import: "__fragment",
-              module: "react/jsx-runtime",
-            },
-            "fragment",
-          ],
-          ["@babel/plugin-transform-react-jsx", { pragma: "__cssprop", pragmaFrag: "__fragment" }],
-        ],
-      },
-    }),
+    react({}),
     dts({
       insertTypesEntry: true,
     }),
@@ -53,8 +28,14 @@ export default defineConfig({
         name: "PaymentSDK",
       },
     },
+    cssCodeSplit: false,
+  },
+  css: {
+    postcss: {
+      plugins: [tailwindcss, autoprefixer],
+    },
   },
   define: {
-    "process.env.NODE_ENV": JSON.stringify("production"), // 브라우저 환경에서 process.env.NODE_ENV 정의
+    "process.env.NODE_ENV": JSON.stringify(command === "serve" ? "development" : "production"),
   },
-});
+}));

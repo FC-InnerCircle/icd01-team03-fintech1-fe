@@ -1,3 +1,4 @@
+import "./index.css";
 import PaymentWebComponent from "./PaymentWebComponent";
 
 // IIFE나 UMD에서 전역으로 등록될 수 있도록 window에 할당

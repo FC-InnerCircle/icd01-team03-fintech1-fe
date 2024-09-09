@@ -17,6 +17,7 @@ const px0_300 = generatePixelObject(300);
 const px0_1920 = generatePixelObject(1920);
 
 module.exports = {
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     colors,
     fontFamily: {},
