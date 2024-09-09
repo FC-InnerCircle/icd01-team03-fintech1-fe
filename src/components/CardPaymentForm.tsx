@@ -5,6 +5,7 @@ import { NumberInput } from "./NumberInput";
 import { ExpiryDate, PaymentFormData } from "../types";
 import { Select } from "./Select";
 import { validateCardNumber, validateCVC, validateExpiryDate, validateSelect } from "../utils/validators";
+import Button from "./Button";
 
 const CardCompanyOptions = [
   { label: "삼성카드", value: "SAMSUNG" },
@@ -131,7 +132,9 @@ const CardPaymentForm: React.FC<PaymentFormProps> = ({ onSubmit }) => {
           error={errors.cardCVC}
         />
       </div>
-      <button type="submit">결제하기</button>
+      <Button size="L" color="blue-500" type="submit">
+        결제하기
+      </Button>
     </form>
   );
 };

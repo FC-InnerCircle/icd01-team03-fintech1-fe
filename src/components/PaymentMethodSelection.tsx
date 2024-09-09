@@ -1,50 +1,70 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import Button from "./Button";
 
 type PaymentMethod = "card" | "bank";
 
-type PaymentFormProps = {
-  onSelect: (data: PaymentMethod) => void;
-};
+interface PaymentMethodOption {
+  value: PaymentMethod;
+  label: string;
+}
 
-const PaymentMethodSelection: React.FC<PaymentFormProps> = ({ onSelect }) => {
+interface PaymentMethodSelectionProps {
+  onSelect: (method: PaymentMethod) => void;
+}
+
+const PAYMENT_METHODS: PaymentMethodOption[] = [
+  { value: "card", label: "카드 결제" },
+  { value: "bank", label: "계좌 이체" },
+];
+
+const PaymentMethodButton: React.FC<{
+  method: PaymentMethodOption;
+  isSelected: boolean;
+  onClick: () => void;
+}> = ({ method, isSelected, onClick }) => (
+  <Button
+    type="button"
+    onClick={onClick}
+    color="gray-400"
+    outlined
+    className={`${isSelected ? "!border-blue-500" : ""}`}
+  >
+    <span className="flex items-center justify-between w-full">
+      {method.label}
+      {isSelected && <span className="text-blue-500">✓</span>}
+    </span>
+  </Button>
+);
+
+const PaymentMethodSelection: React.FC<PaymentMethodSelectionProps> = ({ onSelect }) => {
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethod | null>(null);
 
   const handleMethodSelect = (method: PaymentMethod) => {
     setSelectedMethod(method);
   };
+
+  const handleSubmit = () => {
+    if (selectedMethod) {
+      onSelect(selectedMethod);
+    }
+  };
+
   return (
     <div>
       <h2 className="mb-6 text-2xl font-bold text-center">결제 방식 선택</h2>
       <div className="space-y-4">
-        <button
-          type="button"
-          onClick={() => handleMethodSelect("card")}
-          className={`w-full p-4 flex items-center justify-between border rounded-lg ${
-            selectedMethod === "card" ? "border-blue-500 bg-blue-50" : "border-gray-300"
-          }`}
-        >
-          <span className="flex items-center">카드 결제</span>
-          {selectedMethod === "card" && <span className="text-blue-500">✓</span>}
-        </button>
-        <button
-          type="button"
-          onClick={() => handleMethodSelect("bank")}
-          className={`w-full p-4 flex items-center justify-between border rounded-lg ${
-            selectedMethod === "bank" ? "border-blue-500 bg-blue-50" : "border-gray-300"
-          }`}
-        >
-          <span className="flex items-center">계좌 이체</span>
-          {selectedMethod === "bank" && <span className="text-blue-500">✓</span>}
-        </button>
+        {PAYMENT_METHODS.map((method) => (
+          <PaymentMethodButton
+            key={method.value}
+            method={method}
+            isSelected={selectedMethod === method.value}
+            onClick={() => handleMethodSelect(method.value)}
+          />
+        ))}
       </div>
-      <button
-        type="button"
-        onClick={() => selectedMethod && onSelect(selectedMethod)}
-        disabled={!selectedMethod}
-        className="w-full mt-6"
-      >
+      <Button type="button" onClick={handleSubmit} disabled={!selectedMethod} className="w-full mt-6" color="blue-500">
         다음 단계로
-      </button>
+      </Button>
     </div>
   );
 };
