@@ -1,11 +1,11 @@
-import tw from "twin.macro";
-import PaymentForm from "./components/PaymentForm";
+import PaymentProcess from "./components/PaymentProcess";
+import "./index.css";
 
 function App() {
   return (
     <>
-      <div css={tw`text-center`}>
-        <PaymentForm
+      <div className="text-center">
+        <PaymentProcess
           onSubmit={(data) => {
             console.log(data);
           }}
