@@ -1,7 +1,7 @@
 import { useState, useEffect, forwardRef } from "react";
-import { Input } from "./Input";
+import { Input, InputProps } from "./Input";
 
-interface CardNumberInputProps extends Omit<React.ComponentPropsWithoutRef<"input">, "value" | "onChange"> {
+interface CardNumberInputProps extends Omit<InputProps, "value" | "onChange"> {
   value?: string;
   onChange?: (value: string) => void;
 }

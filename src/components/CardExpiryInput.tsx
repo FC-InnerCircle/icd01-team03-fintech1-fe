@@ -1,33 +1,28 @@
-import { useState, useEffect, forwardRef } from "react";
+import { useState, forwardRef } from "react";
 import { Input } from "./Input";
-
-export interface ExpiryDate {
-  month: number;
-  year: number;
-}
+import { ExpiryDate } from "../types";
 
 interface CardExpiryInputProps extends Omit<React.ComponentPropsWithoutRef<"input">, "value" | "onChange"> {
   value?: ExpiryDate;
   onChange?: (value: ExpiryDate) => void;
+  error?: string;
 }
 
 export const CardExpiryInput = forwardRef<HTMLInputElement, CardExpiryInputProps>(
-  ({ value, onChange, ...rest }, ref) => {
-    const [inputValue, setInputValue] = useState(formatToString(value) || "");
-
-    useEffect(() => {
-      setInputValue(formatToString(value) || "");
-    }, [value]);
+  ({ value, onChange, error, ...rest }, ref) => {
+    const [inputValue, setInputValue] = useState(formatToString(value));
 
     function formatToString(date?: ExpiryDate): string {
-      if (!date) return "";
-      const { month, year } = date;
-      return `${month.toString().padStart(2, "0")} / ${year.toString().padStart(2, "0")}`;
+      if (!date || (!date.month && !date.year)) return "";
+      return `${date.month.padStart(2, "0")} / ${date.year.padStart(2, "0")}`;
     }
 
     function parseToObject(input: string): ExpiryDate {
-      const [month, year] = input.split("/").map((part) => Number.parseInt(part.trim(), 10));
-      return { month: Number.isNaN(month) ? 0 : month, year: Number.isNaN(year) ? 0 : year };
+      const [month, year] = input.split("/").map((part) => part.trim());
+      return {
+        month: month || "",
+        year: year || "",
+      };
     }
 
     const formatExpiry = (input: string): string => {
@@ -56,6 +51,7 @@ export const CardExpiryInput = forwardRef<HTMLInputElement, CardExpiryInputProps
         onChange={handleChange}
         placeholder="MM / YY"
         maxLength={7}
+        error={error}
         {...rest}
       />
     );

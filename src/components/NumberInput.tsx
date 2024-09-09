@@ -1,7 +1,7 @@
 import { forwardRef } from "react";
-import { Input } from "./Input";
+import { Input, InputProps } from "./Input";
 
-interface NumberInputProps extends Omit<React.ComponentPropsWithoutRef<typeof Input>, "type" | "onChange"> {
+interface NumberInputProps extends Omit<InputProps, "type" | "onChange"> {
   value?: string | number;
   onChange?: (value: string) => void;
   allowDecimal?: boolean;
