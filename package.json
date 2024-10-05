@@ -9,7 +9,7 @@
     "lint": "turbo run lint",
     "format": "biome format --write .",
     "check": "biome check --apply .",
-    "service-core": "pnpm --filter @incerpay_fe/core",
+    "service-core": "pnpm --filter @incerpay_fe/service-core",
     "service-ui": "pnpm --filter=@incerpay_fe/service-ui "
   },
   "keywords": [],
