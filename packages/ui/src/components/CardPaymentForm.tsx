@@ -4,7 +4,12 @@ import { CardExpiryInput } from "./CardExpiryInput";
 import { NumberInput } from "./NumberInput";
 import { ExpiryDate, PaymentFormData } from "../types";
 import { Select } from "./Select";
-import { validateCardNumber, validateCVC, validateExpiryDate, validateSelect } from "../utils/validators";
+import {
+  validateCardNumber,
+  validateCVC,
+  validateExpiryDate,
+  validateSelect,
+} from "../utils/validators";
 import Button from "./Button";
 
 const CardCompanyOptions = [
@@ -45,7 +50,6 @@ const CardPaymentForm: React.FC<PaymentFormProps> = ({ onSubmit }) => {
     setFormData((prev) => ({ ...prev, cardCompany: value }));
     setErrors((prev) => ({ ...prev, cardCompany: "" }));
   };
-
   const handleInputChange = (value: string) => {
     setFormData((prev) => ({ ...prev, installment: value }));
     setErrors((prev) => ({ ...prev, installment: "" }));
@@ -54,29 +58,29 @@ const CardPaymentForm: React.FC<PaymentFormProps> = ({ onSubmit }) => {
     setFormData((prev) => ({ ...prev, cardNumber: value }));
     setErrors((prev) => ({ ...prev, cardNumber: "" }));
   };
-
   const handleCardNumberBlur = () => {
-    setErrors((prev) => ({ ...prev, cardNumber: validateCardNumber(formData.cardNumber) }));
+    setErrors((prev) => ({
+      ...prev,
+      cardNumber: validateCardNumber(formData.cardNumber),
+    }));
   };
-
   const handleCardExpiryChange = (value: ExpiryDate) => {
     setFormData((prev) => ({ ...prev, cardExpiry: value }));
     setErrors((prev) => ({ ...prev, cardExpiry: "" }));
   };
-
   const handleCardExpiryBlur = () => {
-    setErrors((prev) => ({ ...prev, cardExpiry: validateExpiryDate(formData.cardExpiry) }));
+    setErrors((prev) => ({
+      ...prev,
+      cardExpiry: validateExpiryDate(formData.cardExpiry),
+    }));
   };
-
   const handleCardCVCChange = (value: string) => {
     setFormData((prev) => ({ ...prev, cardCVC: value }));
     setErrors((prev) => ({ ...prev, cardCVC: "" }));
   };
-
   const handleCardCVCBlur = () => {
     setErrors((prev) => ({ ...prev, cardCVC: validateCVC(formData.cardCVC) }));
   };
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newErrors = {
@@ -88,7 +92,6 @@ const CardPaymentForm: React.FC<PaymentFormProps> = ({ onSubmit }) => {
     };
 
     setErrors(newErrors);
-
     if (Object.values(newErrors).every((error) => !error)) {
       onSubmit(formData);
     }
@@ -98,9 +101,17 @@ const CardPaymentForm: React.FC<PaymentFormProps> = ({ onSubmit }) => {
     <form onSubmit={handleSubmit}>
       <div>
         <label htmlFor="cardCompany">카드사</label>
-        <Select onChange={handleCardCompanyChange} value={formData.cardCompany} options={CardCompanyOptions} />
+        <Select
+          onChange={handleCardCompanyChange}
+          value={formData.cardCompany}
+          options={CardCompanyOptions}
+        />
         <label htmlFor="cardNumber">할부</label>
-        <Select onChange={handleInputChange} value={formData.installment} options={InstallmentOptions} />
+        <Select
+          onChange={handleInputChange}
+          value={formData.installment}
+          options={InstallmentOptions}
+        />
         <label htmlFor="cardNumber">카드번호</label>
         <CardNumberInput
           id="cardNumber"

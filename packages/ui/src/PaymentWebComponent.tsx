@@ -9,6 +9,8 @@ class PaymentWebComponent extends HTMLElement {
     mountPoint.setAttribute("class", "payment-form");
     const shadow = this.attachShadow({ mode: "open" });
 
+    const clientId = this.getAttribute("client-id");
+
     const styleElement = document.createElement("style");
     styleElement.textContent = styles;
     shadow.appendChild(styleElement);
@@ -29,11 +31,15 @@ class PaymentWebComponent extends HTMLElement {
 
     const onSubmit = (paymentForm: PaymentFormData) => {
       console.log("Payment submitted:", paymentForm);
-      this.dispatchEvent(new CustomEvent("payment-submitted", { detail: paymentForm }));
+      this.dispatchEvent(
+        new CustomEvent("payment-submitted", { detail: paymentForm })
+      );
     };
 
     const root = createRoot(mountPoint);
-    root.render(<PaymentProcess onSubmit={onSubmit} />);
+    root.render(
+      <PaymentProcess clientId={clientId || ""} onSubmit={onSubmit} />
+    );
   }
 }
 

@@ -6,6 +6,7 @@ function App() {
     <>
       <div className="text-center">
         <PaymentProcess
+          clientId="1234567890"
           onSubmit={(data) => {
             console.log(data);
           }}
